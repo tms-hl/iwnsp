@@ -1,16 +1,12 @@
 class Effect:
-    def __init__(self):
+    def __init__(self, sprite):
         # TODO:
         # Attribute
         # repeat: bool
-        # active: bool    
+        # active: bool
+        # sprite: Figur, für die der Effekt gilt
         pass
-    
-    def tick(self, sprite):
-        '''
-            Führt auf sprite den nächsten Schritt des Effekts aus
-        '''
-        
+            
     def start(self):
         '''
             Startet den Effekt
@@ -25,3 +21,15 @@ class Effect:
         '''
             Pausiert den Effekt. Der aktuelle Zustand bleibt erhalten
         '''
+
+    def tick(self):
+        '''
+            führt den nächsten Schritt des Effekts aus
+        '''
+        pass
+        
+class EffectAnimation:
+    '''
+        Eine Animation wechselt automatisch die Kostüme des Sprites
+    '''
+    pass
