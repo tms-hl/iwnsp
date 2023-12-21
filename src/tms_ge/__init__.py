@@ -3,43 +3,25 @@
 '''
 
 class Game:
-    '''
-        Zentrale Steuerung des Spiels
-    '''
-    
-    def __init__(self, width, height, gamestate):
-        '''
-            Parameters:
-            width (int): Breite des Spielfensters
-            height (int): Höhe des Spielfensters
-            gamestate (Gamestate): Globaler Zustand des Spiels
-        '''
-        
-        # TODO: pygame initialisieren
-        # TODO: Attribut "window" als Fenster-Surface definieren
-        # TODO: Attribut "levels" ist ein Dictionary mit Levels
-        pass
+    def __init__(self):
+        self.window = pygame.diplay((500, 500))
+        self.levels = {}
+        self.gamestate = Gamestate()
         
     def add_level(self, name, level):
-        '''
-            Fügt dem Spiel ein Level hinzu
-            
-            Parameters:
-            name (str): Name des Levels
-            level (Level): Level-Objekt
-        '''
-        pass
-        
+        self.levels[name] = level
+    
     def run(self, first_level):
-        '''
-            Startet das Spiel
-            
-            Parameters:
-            first_level (str): Name des ersten Levels
-        '''
-        # TODO: Spielschleife starten
-        # TODO:
-        pass
+        self.gamestate.current_level = first_level
+        while not done:
+            if self.gamestate.current_level != self.gamestate.next_level:
+                if self.gamestate.next_level == None:
+                    done = True
+                else:
+                    self.gamestate.current_level = self.gamestate.next_level
+            self.levels[self.gamestate.current_level].process_events()
+            self.levels[self.gamestate.current_level].draw(self.window)
+            self.window.update(self.levels[self.gamestate.current_level].area_changed)
         
 class Gamestate:
 
