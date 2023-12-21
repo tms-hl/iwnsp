@@ -42,10 +42,10 @@ class Gamestate:
 
 class Level:
     
-    def tick(self, events):
-        '''
-            Führt einen Schritt der Spielschleife aus
-        '''
+    def __init__(self):
+        self.bind(EventType.CLICK, self.on_click)
+    
+    def on_click(self, event):
         pass
     
     @property
@@ -57,9 +57,82 @@ class Level:
     
 class Sprite:
     
+    def __init__(self, surface):
+        # TODO: Attribute
+        # x: int
+        # y: int
+        # z: int
+        # w: int
+        # h: int
+        # costumes
+        # costume_index
+        # effects
+        # _surface
+        # old_position
+        # new_position
+        # changed
+    
+    @property
+    def rect(self):
+        pass
+    
+    @property
+    def costume(self):
+        '''
+            gibt das aktuelle Kostüm zurück
+        '''
+        
     def tick(self, events):
         '''
             Führt einen Schritt der Spielschleife aus
         '''
-        
     
+    def draw(self):
+        '''
+            Zeichnet das Sprite auf die Oberfläche
+        '''
+        
+    def add_costume(self, costume):
+        '''
+            Fügt ein Kostüm hinzu
+        '''
+        pass
+    
+    def add_effect(self, name, effeeinen Schritt der Spielschleife aus
+        '''
+        passct):
+        '''
+            Fügt einen Effekt hinzu
+        '''
+
+class Costume(self):
+    def draw(self):
+        pass
+    
+class Effect:
+    def __init__(self):
+        # TODO:
+        # Attribute
+        # repeat: bool
+        # active: bool    
+        pass
+    
+    def tick(self, sprite):
+        '''
+            Führt auf sprite den nächsten Schritt des Effekts aus
+        '''
+        
+    def start(self):
+        '''
+            Startet den Effekt
+        '''
+    
+    def stop(self):
+        '''
+            Stoppt den Effekt. Dabei wir er auf den Startzustand zurückgesetzt
+        '''
+        
+    def pause(self):
+        '''
+            Pausiert den Effekt. Der aktuelle Zustand bleibt erhalten
+        '''
