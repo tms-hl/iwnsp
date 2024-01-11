@@ -141,6 +141,8 @@ class Sprite(EventTrigger):
         # old_position
         # new_position
         # changed
+        self.h = 0
+        self.w = 0
         pass
 
     @property
