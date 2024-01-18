@@ -55,14 +55,6 @@ class Game:
 class Gamestate:
     pass
 
-class Level:
-        
-    def __init__(self):
-        # Attribute
-        # current_level: string Name des gerade aktiven Levels
-        # next_level: string Name des Levels, das beim nächsten Tick gestartet werden soll
-        pass
-
 class EventTrigger:
     def bind(self, event_type, function):
         '''
@@ -101,10 +93,11 @@ class Level(EventTrigger):
             Erstellt ein neues Level
 
             Parameters:
-            surface: pyfoot Surface, das Spielefenster
+            surface: pygame Surface, das Spielefenster
             gamestate: globaler Zustand des Spiels
         '''
-        pass
+        self.surface = surface
+        self.gamestate = gamestate
 
     def process_events(self, events):
         '''
@@ -113,7 +106,8 @@ class Level(EventTrigger):
         # TODO: Ereignisse in tms_ge-Ereignisse umwandeln
         # TODO: gebundene Methoden aufrufen
         # TODO: process_events für alle Sprites aufrufen
-        pass
+        for event in events:
+            pass
         
     def run(self):
         '''
