@@ -64,6 +64,9 @@ class Level:
         pass
 
 class EventTrigger:
+    def __init__(self):
+        self.bound_events = {}
+        
     def bind(self, event_type, function):
         '''
             Bindet eine Funktion an ein Ereignis
@@ -72,27 +75,38 @@ class EventTrigger:
             event_type (EventType): Typ des Events
             function (callable): Funktion, die bei dem Ereignis aufgerufen wird. Argument: Objekt des Typs Event
         '''
-        pass
+        if not event_type in self.bound_events:
+            self.bound_events[event_type] = []
 
+        self.bound_events[event_type] = function
+    
+    def unbind(self, event_type, function)
+        pass
+    
     def trigger(self, event):
         '''
             Löst ein Ereignis aus.
 
-            Alle gebundenen Funktionen für diesen EventType werden ausgeführt
+            Alle gebundenen Funktionen mit dem EventType dieses Events werden ausgeführt
+            
+            Parameters:
+            event (Event): Das Ereignis, das ausgelöst wird
         '''
-        pass
+        if event.event_type in self.bound_events:
+            self.bound_events[event.event_type](event)
 
-    def bound(self, event_type):
+    def bound(self, event_type, function = None):
         '''
             Gibt zurück, ob ein bestimmter Ereignistyp gebunden wurde
 
             Parameters:
             event_type (EventType): Typ des gesuchten Events
-
+            function (callable): sucht nur das Ereignis zu der gegebenen Funktion, wenn None werden alle Funktionen gesucht
+            
             Returns:
             boolean: WAHR, wenn das Ereignis gebunden wurde
         '''
-        pass
+        return event_type in self.bound_events and (function is None or function in self.bound_events[event_type])
 
 class Level(EventTrigger):
 
