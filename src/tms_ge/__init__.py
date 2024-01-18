@@ -3,7 +3,17 @@
 '''
 
 class Game:
+    '''
+        Zentrale Steuerung des Spiels
+    '''
+
     def __init__(self, width, height, gamestate):
+        '''
+            Parameters:
+            width (int): Breite des Spielfensters
+            height (int): Höhe des Spielfensters
+            gamestate (Gamestate): Globaler Zustand des Spiels
+        '''
         pygame.init()
         self.width = width
         self.height = height
@@ -12,19 +22,34 @@ class Game:
         self.gamestate = gamestate
         
     def add_level(self, name, level):
+        '''
+            Fügt dem Spiel ein Level hinzu
+            
+            Parameters:
+            name (str): Name des Levels
+            level (Level): Level-Objekt
+        '''
         self.levels[name] = level
     
     def run(self, first_level):
+        '''
+            Startet das Spiel
+            
+            Parameters:
+            first_level (str): Name des ersten Levels
+        '''
         self.gamestate.current_level = first_level
-        while not done:
-            if self.gamestate.current_level != self.gamestate.next_level:
-                if self.gamestate.next_level == None:
+
+        while not done:     # Starte Hauptschleife
+            if self.gamestate.current_level != self.gamestate.next_level:   # Wenn next_level ist nicht mehr aktuelles Level ist:
+                if self.gamestate.next_level == None:   # Hauptschleife beenden, wenn next_level ist None
                     done = True
                 else:
-                    self.gamestate.current_level = self.gamestate.next_level
+                    self.gamestate.current_level = self.gamestate.next_level    # Sonst, aktuelles Level auf next_level setzen
+                    self.levels[self.gamestate.current_level].run()
                     
-            self.levels[self.gamestate.current_level].process_events()
-            self.levels[self.gamestate.current_level].draw(self.window)
+            self.levels[self.gamestate.current_level].process_events()  # Events in aktuellem Level verarbeiten
+            self.levels[self.gamestate.current_level].draw(self.window)     # Aktuelles Level auf Bildschirm malen
             self.window.update(self.levels[self.gamestate.current_level].area_changed)
         
 class Gamestate:
