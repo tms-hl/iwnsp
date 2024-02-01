@@ -53,7 +53,13 @@ class Game:
             self.window.update(self.levels[self.gamestate.current_level].area_changed)
         
 class Gamestate:
-    pass
+    def __init__(self, current_level, next_level):
+        self.current_level = current_level
+        self.next_level = next_level 
+
+    @property
+    def level_changed(self):
+        return self.current_level != self.next_level
 
 class Level:
         
