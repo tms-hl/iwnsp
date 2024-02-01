@@ -152,7 +152,7 @@ class Level(EventTrigger):
     
 class Sprite(EventTrigger):
     
-    def __init__(self):
+    def __init__(self, width, height):
         # TODO: Attribute
         # x: int
         # y: int
@@ -187,12 +187,6 @@ class Sprite(EventTrigger):
         '''
             gibt das aktuelle Kostüm zurück
         '''
-    
-    def draw(self):
-        '''
-            Zeichnet das Sprite auf die Oberfläche
-        '''
-        pass
 
     def draw(self):
         '''
