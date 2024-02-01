@@ -40,8 +40,9 @@ class Game:
         '''
         self.gamestate.current_level = first_level
 
+        done = False
         while not done:     # Starte Hauptschleife
-            if self.gamestate.current_level != self.gamestate.next_level:   # Wenn next_level ist nicht mehr aktuelles Level ist:
+            if self.gamestate.level_changed:   # Wenn next_level ist nicht mehr aktuelles Level ist:
                 if self.gamestate.next_level == None:   # Hauptschleife beenden, wenn next_level ist None
                     done = True
                 else:
@@ -104,7 +105,7 @@ class EventTrigger:
     def bound(self, event_type, function = None):
         '''
             Gibt zurück, ob ein bestimmter Ereignistyp gebunden wurde
-
+costume
             Parameters:
             event_type (EventType): Typ des gesuchten Events
             function (callable): sucht nur das Ereignis zu der gegebenen Funktion, wenn None werden alle Funktionen gesucht
