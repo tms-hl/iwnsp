@@ -80,7 +80,7 @@ class EventTrigger:
 
         self.bound_events[event_type] = function
     
-    def unbind(self, event_type, function)
+    def unbind(self, event_type, function):
         pass
     
     def trigger(self, event):
@@ -152,7 +152,7 @@ class Level(EventTrigger):
     
 class Sprite(EventTrigger):
     
-    def __init__(self):
+    def __init__(self, hight, width):
         # TODO: Attribute
         # x: int
         # y: int
@@ -163,11 +163,13 @@ class Sprite(EventTrigger):
         # costume_index
         # effects
         # _surface
+        size = width, height = width, higth
         # old_position
         # new_position
         # changed
-        self.h = 0
-        self.w = 0
+        self.h = heigh
+        self.w = width
+        self._surface = pygame.display.set_mode(size)
         pass
 
     @property
@@ -214,7 +216,7 @@ class Sprite(EventTrigger):
         '''
         pass
     
-    def add_effect(self, name, effect)
+    def add_effect(self, name, effect):
         '''
             Fügt einen Effekt hinzu
         '''
