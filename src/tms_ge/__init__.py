@@ -42,12 +42,13 @@ class Game:
         pass
         
 class Gamestate:
+    def __init__(self, current_level, next_level):
+        self.current_level = current_level
+        self.next_level = next_level 
 
-    def __init__(self):
-        # Attribute
-        # current_level: string Name des gerade aktiven Levels
-        # next_level: string Name des Levels, das beim nächsten Tick gestartet werden soll
-        pass
+    @property
+    def level_changed(self):
+        return self.current_level != self.next_level
 
 class EventTrigger:
     def bind(self, event_type, function):
