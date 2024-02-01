@@ -6,7 +6,7 @@ class Game:
     '''
         Zentrale Steuerung des Spiels
     '''
-    
+
     def __init__(self, width, height, gamestate):
         '''
             Parameters:
@@ -14,11 +14,12 @@ class Game:
             height (int): Höhe des Spielfensters
             gamestate (Gamestate): Globaler Zustand des Spiels
         '''
-        
-        # TODO: pygame initialisieren
-        # TODO: Attribut "window" als Fenster-Surface definieren
-        # TODO: Attribut "levels" ist ein Dictionary mit Levels
-        pass
+        pygame.init()
+        self.width = width
+        self.height = height
+        self.window = pygame.diplay((self.width, self.height))
+        self.levels = {}
+        self.gamestate = gamestate
         
     def add_level(self, name, level):
         '''
@@ -28,8 +29,8 @@ class Game:
             name (str): Name des Levels
             level (Level): Level-Objekt
         '''
-        pass
-        
+        self.levels[name] = level
+    
     def run(self, first_level):
         '''
             Startet das Spiel
@@ -37,9 +38,19 @@ class Game:
             Parameters:
             first_level (str): Name des ersten Levels
         '''
-        # TODO: Spielschleife starten
-        # TODO:
-        pass
+        self.gamestate.current_level = first_level
+
+        while not done:     # Starte Hauptschleife
+            if self.gamestate.current_level != self.gamestate.next_level:   # Wenn next_level ist nicht mehr aktuelles Level ist:
+                if self.gamestate.next_level == None:   # Hauptschleife beenden, wenn next_level ist None
+                    done = True
+                else:
+                    self.gamestate.current_level = self.gamestate.next_level    # Sonst, aktuelles Level auf next_level setzen
+                    self.levels[self.gamestate.current_level].run()
+                    
+            self.levels[self.gamestate.current_level].process_events()  # Events in aktuellem Level verarbeiten
+            self.levels[self.gamestate.current_level].draw(self.window)     # Aktuelles Level auf Bildschirm malen
+            self.window.update(self.levels[self.gamestate.current_level].area_changed)
         
 class Gamestate:
     def __init__(self, current_level, next_level):
@@ -50,7 +61,18 @@ class Gamestate:
     def level_changed(self):
         return self.current_level != self.next_level
 
+class Level:
+        
+    def __init__(self):
+        # Attribute
+        # current_level: string Name des gerade aktiven Levels
+        # next_level: string Name des Levels, das beim nächsten Tick gestartet werden soll
+        pass
+
 class EventTrigger:
+    def __init__(self):
+        self.bound_events = {}
+        
     def bind(self, event_type, function):
         '''
             Bindet eine Funktion an ein Ereignis
@@ -59,27 +81,38 @@ class EventTrigger:
             event_type (EventType): Typ des Events
             function (callable): Funktion, die bei dem Ereignis aufgerufen wird. Argument: Objekt des Typs Event
         '''
-        pass
+        if not event_type in self.bound_events:
+            self.bound_events[event_type] = []
 
+        self.bound_events[event_type] = function
+    
+    def unbind(self, event_type, function)
+        pass
+    
     def trigger(self, event):
         '''
             Löst ein Ereignis aus.
 
-            Alle gebundenen Funktionen für diesen EventType werden ausgeführt
+            Alle gebundenen Funktionen mit dem EventType dieses Events werden ausgeführt
+            
+            Parameters:
+            event (Event): Das Ereignis, das ausgelöst wird
         '''
-        pass
+        if event.event_type in self.bound_events:
+            self.bound_events[event.event_type](event)
 
-    def bound(self, event_type):
+    def bound(self, event_type, function = None):
         '''
             Gibt zurück, ob ein bestimmter Ereignistyp gebunden wurde
 
             Parameters:
             event_type (EventType): Typ des gesuchten Events
-
+            function (callable): sucht nur das Ereignis zu der gegebenen Funktion, wenn None werden alle Funktionen gesucht
+            
             Returns:
             boolean: WAHR, wenn das Ereignis gebunden wurde
         '''
-        pass
+        return event_type in self.bound_events and (function is None or function in self.bound_events[event_type])
 
 class Level(EventTrigger):
 
@@ -139,6 +172,8 @@ class Sprite(EventTrigger):
         # old_position
         # new_position
         # changed
+        self.h = 0
+        self.w = 0
         pass
 
     @property
@@ -157,6 +192,11 @@ class Sprite(EventTrigger):
     def costume(self):
         '''
             gibt das aktuelle Kostüm zurück
+        '''
+    
+    def draw(self):
+        '''
+            Zeichnet das Sprite auf die Oberfläche
         '''
         pass
 
@@ -180,8 +220,44 @@ class Sprite(EventTrigger):
         '''
         pass
     
-    def add_effect(self, name, effect):
+    def add_effect(self, name, effect)
         '''
             Fügt einen Effekt hinzu
+        '''
+        pass
+    
+class Costume(self):
+    def draw(self):
+        pass
+    
+class Effect:
+    def __init__(self):
+        # TODO:
+        # Attribute
+        # repeat: bool
+        # active: bool    
+        pass
+    
+    def tick(self, sprite):
+        '''
+            Führt auf sprite den nächsten Schritt des Effekts aus
+        '''
+        pass
+    
+    def start(self):
+        '''
+            Startet den Effekt
+        '''
+        pass
+    
+    def stop(self):
+        '''
+            Stoppt den Effekt. Dabei wir er auf den Startzustand zurückgesetzt
+        '''
+        pass
+    
+    def pause(self):
+        '''
+            Pausiert den Effekt. Der aktuelle Zustand bleibt erhalten
         '''
         pass
