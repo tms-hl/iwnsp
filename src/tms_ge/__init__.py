@@ -90,15 +90,13 @@ class EventTrigger:
 
 class Level(EventTrigger):
 
-    def __init__(self, surface, gamestate):
+    def __init__(self, gamestate):
         '''
             Erstellt ein neues Level
 
             Parameters:
-            surface: pygame Surface, das Spielefenster
             gamestate: globaler Zustand des Spiels
         '''
-        self.surface = surface
         self.gamestate = gamestate
 
     def process_events(self):
@@ -138,12 +136,14 @@ class Level(EventTrigger):
         '''
         pass
 
-    def draw(self):
+    def draw(self, surface):
         '''
             Zeichnet das Level auf das Fenster
         '''
-        pass
-        
+        for sprite in self._sprites:
+            surface.blit(sprite.draw(), (sprite.x, sprite.y))
+
+
     @property
     def area_changed(self):
         '''
@@ -186,12 +186,6 @@ class Sprite(EventTrigger):
         '''
             gibt das aktuelle Kostüm zurück
         '''
-    
-    def draw(self):
-        '''
-            Zeichnet das Sprite auf die Oberfläche
-        '''
-        pass
 
     def draw(self):
         '''
