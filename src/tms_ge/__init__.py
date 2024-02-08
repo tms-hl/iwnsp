@@ -1,3 +1,5 @@
+import event
+
 '''
     Engine für Spiele auf der Basis von pygame
 '''
@@ -99,16 +101,35 @@ class Level(EventTrigger):
         self.surface = surface
         self.gamestate = gamestate
 
-    def process_events(self, events):
+    def process_events(self):
         '''
             Verarbeitet pygame-Ereignisse
         '''
         # TODO: Ereignisse in tms_ge-Ereignisse umwandeln
         # TODO: gebundene Methoden aufrufen
         # TODO: process_events für alle Sprites aufrufen
+        new_events = []
         for event in events:
-            pass
-        
+            if event.type == pygame.KEYDOWN:
+                new_events.append(event.KeyDown(event.key, event.mod, event.unicode, event.scancode))
+            elif event.type == pygame.KEYUP:
+                new_events.append(event.KeyUp(event.key, event.mod, event.unicode, event.scancode))
+            elif event.type == pygame.MOUSEMOTION:
+                new_events.append(event.MouseMove(event.pos, event.rel, event.buttons, event.touch))
+            elif event.type == pygame.MOUSEDOWN:
+                new_events.append(event.MouseDown(event.pos, event.button, event.touch))
+            elif event.type == pygame.MOUSEUP:
+                new_events.append(event.MouseUp(event.pos, event.button, event.touch))
+
+        for sprite in self._sprites:
+            sprite.process_events(new_events)
+
+    def add_sprite(sprite):
+        '''
+        Gegebene Sprite zu Level hinzufügen
+        '''
+        self._sprites.append(sprite)
+
     def run(self):
         '''
             Initialisiert das Level.
@@ -192,7 +213,7 @@ class Sprite(EventTrigger):
         '''
         pass
     
-    def add_effect(self, name, effect)
+    def add_effect(self, name, effect):
         '''
             Fügt einen Effekt hinzu
         '''
