@@ -149,7 +149,11 @@ class Level(EventTrigger):
         '''
             Gib eine Liste mit Rechtecken zurück. In diesen Bereichen des Fensters wurden im letzten tick Änderungen ausgeführt
         '''
-        pass
+        rects = []
+        for sprite in self._sprites:
+            if sprite.changed:
+                rects.append(sprite.rect())
+        return rects
     
 class Sprite(EventTrigger):
     
@@ -165,7 +169,6 @@ class Sprite(EventTrigger):
         # effects
         # _surface
         # old_position
-        # new_position
         # changed
         pass
 
