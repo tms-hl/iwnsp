@@ -1,7 +1,6 @@
 class Costume(self):
     def __init__(self, costumes):
         self.costumes = []
-        
         # Attribute:
         # rotation
         
@@ -34,5 +33,3 @@ class CostumeText(self):
 def add_costume(self):
     costumes.append(-1)
     
-add_costumes(1)
-
