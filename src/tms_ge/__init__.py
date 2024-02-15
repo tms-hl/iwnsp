@@ -1,4 +1,5 @@
 import event
+from collections import namedtuple
 
 '''
     Engine für Spiele auf der Basis von pygame
@@ -146,15 +147,17 @@ class Level(EventTrigger):
 
     @property
     def area_changed(self):
-        '''
-            Gib eine Liste mit Rechtecken zurück. In diesen Bereichen des Fensters wurden im letzten tick Änderungen ausgeführt
+        '''d
+            Gib eine Liste mit Rechtecken zurück. In iesen Bereichen des Fensters wurden im letzten tick Änderungen ausgeführt
         '''
         rects = []
         for sprite in self._sprites:
             if sprite.changed:
-                rects.append(sprite.rect())
+                rects.append(sprite.rect)
+                rects.append(sprite.old_state.rect)
         return rects
-    
+
+State = namedtuple("State", ["rect", "z", "costume_index"])
 class Sprite(EventTrigger):
     
     def __init__(self):
@@ -168,8 +171,9 @@ class Sprite(EventTrigger):
         # costume_index
         # effects
         # _surface
-        # old_position
+        # old_state
         # changed
+        self.old_state = None
         pass
 
     @property
@@ -182,7 +186,7 @@ class Sprite(EventTrigger):
         
     @property
     def rect(self):
-        pass
+        return pygame.Rect([self.x, self.y, self.w, self.h])
     
     @property
     def costume(self):
@@ -190,6 +194,14 @@ class Sprite(EventTrigger):
             gibt das aktuelle Kostüm zurück
         '''
 
+    @property
+    def current_state(self):
+        return State(self.rect, self.z, self.costume_index)
+
+    @property
+    def changed(self):
+        return self.old_state != self.current_state
+    
     def draw(self):
         '''
             Zeichnet das aktuelle Kostüm
