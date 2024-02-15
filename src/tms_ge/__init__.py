@@ -44,8 +44,9 @@ class Game:
         '''
         self.gamestate.current_level = first_level
 
+        done = False
         while not done:     # Starte Hauptschleife
-            if self.gamestate.current_level != self.gamestate.next_level:   # Wenn next_level ist nicht mehr aktuelles Level ist:
+            if self.gamestate.level_changed:   # Wenn next_level ist nicht mehr aktuelles Level ist:
                 if self.gamestate.next_level == None:   # Hauptschleife beenden, wenn next_level ist None
                     done = True
                 else:
@@ -57,9 +58,18 @@ class Game:
             self.window.update(self.levels[self.gamestate.current_level].area_changed)
         
 class Gamestate:
-    pass
+    def __init__(self, current_level, next_level):
+        self.current_level = current_level
+        self.next_level = next_level 
+
+    @property
+    def level_changed(self):
+        return self.current_level != self.next_level
 
 class EventTrigger:
+    def __init__(self):
+        self.bound_events = {}
+        
     def bind(self, event_type, function):
         '''
             Bindet eine Funktion an ein Ereignis
@@ -68,27 +78,38 @@ class EventTrigger:
             event_type (EventType): Typ des Events
             function (callable): Funktion, die bei dem Ereignis aufgerufen wird. Argument: Objekt des Typs Event
         '''
-        pass
+        if not event_type in self.bound_events:
+            self.bound_events[event_type] = []
 
+        self.bound_events[event_type] = function
+    
+    def unbind(self, event_type, function)
+        pass
+    
     def trigger(self, event):
         '''
             Löst ein Ereignis aus.
 
-            Alle gebundenen Funktionen für diesen EventType werden ausgeführt
+            Alle gebundenen Funktionen mit dem EventType dieses Events werden ausgeführt
+            
+            Parameters:
+            event (Event): Das Ereignis, das ausgelöst wird
         '''
-        pass
+        if event.event_type in self.bound_events:
+            self.bound_events[event.event_type](event)
 
-    def bound(self, event_type):
+    def bound(self, event_type, function = None):
         '''
             Gibt zurück, ob ein bestimmter Ereignistyp gebunden wurde
-
+costume
             Parameters:
             event_type (EventType): Typ des gesuchten Events
-
+            function (callable): sucht nur das Ereignis zu der gegebenen Funktion, wenn None werden alle Funktionen gesucht
+            
             Returns:
             boolean: WAHR, wenn das Ereignis gebunden wurde
         '''
-        pass
+        return event_type in self.bound_events and (function is None or function in self.bound_events[event_type])
 
 class Level(EventTrigger):
 
@@ -161,7 +182,7 @@ class Level(EventTrigger):
 State = namedtuple("State", ["rect", "z", "costume_index"])
 class Sprite(EventTrigger):
     
-    def __init__(self):
+    def __init__(self, width, height):
         # TODO: Attribute
         # x: int
         # y: int
@@ -175,7 +196,6 @@ class Sprite(EventTrigger):
         # old_state
         # changed
         self.old_state = None
-        pass
 
     @property
     def pos(self):
