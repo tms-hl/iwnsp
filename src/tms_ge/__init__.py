@@ -1,4 +1,6 @@
 import event
+import pygame
+from collections import namedtuple
 
 '''
     Engine für Spiele auf der Basis von pygame
@@ -111,15 +113,13 @@ costume
 
 class Level(EventTrigger):
 
-    def __init__(self, surface, gamestate):
+    def __init__(self, gamestate):
         '''
             Erstellt ein neues Level
 
             Parameters:
-            surface: pygame Surface, das Spielefenster
             gamestate: globaler Zustand des Spiels
         '''
-        self.surface = surface
         self.gamestate = gamestate
 
     def process_events(self):
@@ -159,19 +159,27 @@ class Level(EventTrigger):
         '''
         pass
 
-    def draw(self):
+    def draw(self, surface):
         '''
             Zeichnet das Level auf das Fenster
         '''
-        pass
-        
+        for sprite in self._sprites:
+            surface.blit(sprite.draw(), (sprite.x, sprite.y))
+
+
     @property
     def area_changed(self):
         '''
-            Gib eine Liste mit Rechtecken zurück. In diesen Bereichen des Fensters wurden im letzten tick Änderungen ausgeführt
+            Gib eine Liste mit Rechtecken zurück. In iesen Bereichen des Fensters wurden im letzten tick Änderungen ausgeführt
         '''
-        pass
-    
+        rects = []
+        for sprite in self._sprites:
+            if sprite.changed:
+                rects.append(sprite.rect)
+                rects.append(sprite.old_state.rect)
+        return rects
+
+State = namedtuple("State", ["rect", "z", "costume_index"])
 class Sprite(EventTrigger):
     
     def __init__(self, width, height):
@@ -185,12 +193,9 @@ class Sprite(EventTrigger):
         # costume_index
         # effects
         # _surface
-        # old_position
-        # new_position
+        # old_state
         # changed
-        self.h = 0
-        self.w = 0
-        pass
+        self.old_state = None
 
     @property
     def pos(self):
@@ -202,7 +207,7 @@ class Sprite(EventTrigger):
         
     @property
     def rect(self):
-        pass
+        return pygame.Rect([self.x, self.y, self.w, self.h])
     
     @property
     def costume(self):
@@ -210,6 +215,14 @@ class Sprite(EventTrigger):
             gibt das aktuelle Kostüm zurück
         '''
 
+    @property
+    def current_state(self):
+        return State(self.rect, self.z, self.costume_index)
+
+    @property
+    def changed(self):
+        return self.old_state != self.current_state
+    
     def draw(self):
         '''
             Zeichnet das aktuelle Kostüm
