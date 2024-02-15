@@ -1,5 +1,6 @@
 class Costume(self):
-    def __init__(self):
+    def __init__(self, costumes):
+        self.costumes = []
         # Attribute:
         # rotation
         
@@ -28,3 +29,7 @@ class CostumeText(self):
         Kostüm: Ein Text
     '''
     pass
+
+def add_costume(self):
+    costumes.append(-1)
+    
