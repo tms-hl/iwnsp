@@ -1,4 +1,5 @@
 import event
+import pygame
 from collections import namedtuple
 
 '''
@@ -147,7 +148,7 @@ class Level(EventTrigger):
 
     @property
     def area_changed(self):
-        '''d
+        '''
             Gib eine Liste mit Rechtecken zurück. In iesen Bereichen des Fensters wurden im letzten tick Änderungen ausgeführt
         '''
         rects = []
